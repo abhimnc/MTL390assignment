@@ -1,0 +1,115 @@
+import csv
+import pandas as pd
+import statistics
+import numpy as np
+import scipy.stats as st
+from fitter import Fitter
+
+
+
+with open('2014MT10581_ABHISHEK_KUMAR.csv') as csvfile:
+    readCSV = csv.reader(csvfile, delimiter=',')
+
+    colview = []
+
+    for row in readCSV:
+        col = float(row[0])
+
+        colview.append(col)
+
+    #print(colview)
+   
+    
+    f1=f2=f4=f3=f5=f6=f7=f8=f9=f10=f11=0
+   
+    
+    for num in colview:
+            if (num >=49) and (num<50):
+                f1+=1
+            if (num >=50) and (num<51):
+                f2+=1
+            if (num >=51) and (num<52):
+                f3+=1
+            if (num >=52) and (num<53):
+                f4+=1
+            if (num >=53) and (num<54):
+                f5+=1
+            if (num >=54) and (num<55):
+                f6+=1
+            if (num >=55) and (num<56):
+                f7+=1
+            if (num >=56) and (num<57):
+                f8+=1
+            if (num >=57) and (num<58):
+                f9+=1
+            if (num >=58) and (num<59):
+                f10+=1
+            if (num >=59) and (num<60):
+                f11+=1
+                
+
+    
+    f = [f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11]
+   
+    
+    interval = ['49-50','50-51','51-52','52-53','53-54','54-55','55-56','56-57','57-58','58-59','59-60']
+    
+    dataset =   list(zip(interval,f))
+    
+    df = pd.DataFrame(data=dataset,columns=['interval','frequency'])
+    print(df)
+    
+  #  print("mean = {}".format(statistics.mean(colview)))
+    print("median = {}".format(statistics.median(colview)))
+    
+    lens = len(set(colview))
+    aclen = len(colview)
+    if(lens == aclen):
+        print("MODE = NO unique mode")
+    else:
+        print("mode = {}".format(statistics.mode(colview)))
+            
+    
+    histogra = pd.DataFrame(colview)    
+    histogra.plot.hist()
+    
+   
+    
+    df = pd.DataFrame(colview)
+    df.plot.box()
+    
+    
+    des = pd.DataFrame.describe(df)
+    print(des)
+    
+    print("coefficient of skewnwess = {} ".format(df[0].skew()))
+    print("coefficient of kurtosis = {} ".format(df[0].kurt()))
+    print("coefficient of variation = {} ".format(df[0].std()/df[0].mean()))
+
+
+    f = Fitter(colview)
+    f.fit()
+    f.summary()    
+    
+
+    '''
+    bargraph plot
+    
+   bar = pd.DataFrame(colview)
+    bar.plot.bar();
+    
+    '''
+    
+    '''
+    #can be used for drawing graph
+    plt.hist(colview)
+    plt.title("Assignment 1")
+    plt.xlabel("interval")
+    plt.ylabel("Frequency")
+
+    fig = plt.gcf()
+    '''
+    
+    
+            
+   
